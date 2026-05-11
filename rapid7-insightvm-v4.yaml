@@ -1,12 +1,11 @@
 openapi: 3.0.1
-
 info:
-  title: Rapid7 InsightVM v4 API
-  description: Clean minimal OpenAPI spec for Rapid7 InsightVM v4 (Security Copilot).
-  version: "1.0.0"
+  title: Rapid7 InsightVM Copilot API
+  version: "1.2.0"
+  description: InsightVM Cloud Integrations API for Microsoft Security Copilot (read-only)
 
 servers:
-  - url: https://eu.api.insight.rapid7.com/vm/v4
+  - url: https://eu.api.insight.rapid7.com
 
 components:
   securitySchemes:
@@ -19,24 +18,92 @@ security:
   - ApiKeyAuth: []
 
 paths:
-  /integrations/assets:
+  /admin/health:
     get:
-      operationId: listAssets
-      summary: List assets
-      description: Returns a paginated list of assets.
-      parameters:
-        - name: page
-          in: query
-          schema:
-            type: integer
-        - name: size
-          in: query
-          schema:
-            type: integer
+      operationId: getHealth
+      summary: Get API health status
       responses:
         "200":
-          description: Asset list
-          content:
-            application/json:
-              schema:
-                type: object
+          description: Service health status
+
+  /vm/v4/integration/assets:
+    post:
+      operationId: searchAssets
+      summary: Search assets
+      description: Search asset inventory in Rapid7 InsightVM
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+
+  /vm/v4/integration/assets/{id}:
+    get:
+      operationId: getAssetById
+      summary: Get asset by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /vm/v4/integration/vulnerabilities:
+    post:
+      operationId: searchVulnerabilities
+      summary: Search vulnerabilities
+      description: Search vulnerabilities in InsightVM
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+
+  /vm/v4/integration/scan:
+    get:
+      operationId: listScans
+      summary: List scans
+      description: Retrieve scan history and status
+      responses:
+        "200":
+          description: OK
+
+  /vm/v4/integration/scan/{id}:
+    get:
+      operationId: getScanById
+      summary: Get scan by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /vm/v4/integration/sites:
+    post:
+      operationId: listSites
+      summary: List sites
+      description: Retrieve sites inventory
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
