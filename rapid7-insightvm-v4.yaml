@@ -2,8 +2,8 @@ openapi: 3.0.1
 
 info:
   title: Rapid7 InsightVM v4 API
-  description: Minimal OpenAPI definition for Rapid7 InsightVM v4 used by Microsoft Security Copilot.
-  version: "1.0.0"
+  description: InsightVM v4 API using integrations endpoints (Copilot compatible).
+  version: "1.0.1"
 
 servers:
   - url: https://eu.api.insight.rapid7.com/vm/v4
@@ -19,7 +19,7 @@ security:
   - ApiKeyAuth: []
 
 paths:
-  /assets:
+  /integrations/assets:
     get:
       summary: List assets
       description: Retrieve a paginated list of assets from Rapid7 InsightVM.
@@ -31,7 +31,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-          description: Page number starting at 0.
 
         - name: size
           in: query
@@ -40,11 +39,10 @@ paths:
             type: integer
             minimum: 1
             maximum: 100
-          description: Number of assets per page.
 
       responses:
         "200":
-          description: Successful response containing a list of assets.
+          description: Successful response
           content:
             application/json:
               schema:
