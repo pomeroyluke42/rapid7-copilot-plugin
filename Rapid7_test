@@ -1,0 +1,15 @@
+openapi: 3.0.1
+info:
+  title: Rapid7 InsightVM API
+  description: Query assets from Rapid7 InsightVM
+  version: "1.0"
+servers:
+  - url: https://eu.api.insight.rapid7.com
+paths:
+  /vm/v4/integrations/assets:
+    get:
+      summary: Get InsightVM assets
+      operationId: getAssets
+      responses:
+        "200":
+          description: Asset list
